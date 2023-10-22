@@ -24,20 +24,27 @@ class Reminders {
     func requestPermission() -> Bool {
         var granted = false
         let semaphore = DispatchSemaphore(value: 0)
-        if #available(iOS 17.0.0, *) {
+        // if #available(iOS 17.0.0, *) {
 
+        if #available(iOS 17.0, *) {
             eventStore.requestFullAccessToReminders(completion: { (success, error) in
                 granted = success
                 semaphore.signal()
             })
-
-        }else{
-            eventStore.requestAccess(to: EKEntityType.reminder) { (success, error) in
-                granted = success
-                semaphore.signal()
-            }
-
+        } else {
+             eventStore.requestAccess(to: EKEntityType.reminder) { (success, error) in
+                 granted = success
+                 semaphore.signal()
+             }
         }
+
+        // }else{
+        //     eventStore.requestAccess(to: EKEntityType.reminder) { (success, error) in
+        //         granted = success
+        //         semaphore.signal()
+        //     }
+
+        // }
         semaphore.wait()
         hasAccess = granted
         return granted

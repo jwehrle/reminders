@@ -90,31 +90,33 @@ class _ExampleAppState extends State<ExampleApp> {
               final List<Reminder> rems = snapshot.data ?? [];
               return ListView.builder(
                   itemCount: rems.length,
+                  reverse: true,
                   itemBuilder: (context, index) {
                     final reminder = rems[index];
                     return ListTile(
                       leading: Text('${reminder.priority}'),
-                      title: Row(
-                        children: [
-                          Expanded(child: Text(reminder.title)),
-                          GestureDetector(
-                            child: Text(
-                                reminder.dueDate?.toString() ?? 'No date set'),
-                            onTap: () async {
-                              final now = DateTime.now();
-                              reminder.dueDate =
-                                  DateTime(now.year, now.month, now.day);
-                              await reminders.saveReminder(reminder);
-                              setState(() {});
-                            },
-                            onDoubleTap: () async {
-                              reminder.dueDate = null;
-                              await reminders.saveReminder(reminder);
-                              setState(() {});
-                            },
-                          )
-                        ],
-                      ),
+                      title: Text(reminder.title),
+                      // Row(
+                      //   children: [
+                      //     Expanded(child: Text(reminder.title)),
+                      //     GestureDetector(
+                      //       child: Text(
+                      //           reminder.dueDate?.toString() ?? 'No date set'),
+                      //       onTap: () async {
+                      //         final now = DateTime.now();
+                      //         reminder.dueDate =
+                      //             DateTime(now.year, now.month, now.day);
+                      //         await reminders.saveReminder(reminder);
+                      //         setState(() {});
+                      //       },
+                      //       onDoubleTap: () async {
+                      //         reminder.dueDate = null;
+                      //         await reminders.saveReminder(reminder);
+                      //         setState(() {});
+                      //       },
+                      //     )
+                      //   ],
+                      // ),
                       subtitle:
                           reminder.notes != null ? Text(reminder.notes!) : null,
                       trailing: GestureDetector(
